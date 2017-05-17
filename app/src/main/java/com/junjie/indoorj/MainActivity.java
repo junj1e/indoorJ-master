@@ -9,6 +9,8 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -29,20 +31,34 @@ public class MainActivity extends AppCompatActivity {
     private SensorManager sensorManager;
     private Sensor geomagnetic;
 
+    private Button btn;
+    private ListView listView;
+
     private TextView tvmagnet;
     private TextView tvmagnetX;
     private TextView tvmagnetY;
     private TextView tvmagnetZ;
 
+
     private ArrayAdapter<String> arrayAdapter;
 
+    private Handler handler;
+
+    private Thread thread;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ListView listView = (ListView) findViewById(R.id.lv_wifi);
-        Button btn = (Button) findViewById(R.id.bt);
+        init();
+        thread.start();
+
+
+    }
+
+    public  void init() {
+        listView = (ListView) findViewById(R.id.lv_wifi);
+        btn = (Button) findViewById(R.id.bt);
         tvmagnet = (TextView) findViewById(R.id.tv_magnet);
         tvmagnetX = (TextView) findViewById(R.id.tv_magnetX);
         tvmagnetY = (TextView) findViewById(R.id.tv_magnetY);
@@ -65,15 +81,43 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 info = getAroundWifiDeviceInfo(MainActivity.this);
                 arrayAdapter.notifyDataSetChanged();
-                Log.d("O", info.toString());
+                //Log.d("O", info.toString());
             }
         });
 
+        handler= new Handler()
+        {
+            @Override
+            public void handleMessage (Message msg)
+            {
+                info= (ArrayList<String>) msg.obj;
+                arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1,
+                        getAroundWifiDeviceInfo(MainActivity.this));
+                arrayAdapter.notifyDataSetChanged();
+                Log.d("count","fff");
+            }
+        };
 
+        thread=new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    Thread.sleep(100);
+                    Message message=Message.obtain();
+                    message.what=1;
+                    message.obj=getAroundWifiDeviceInfo(MainActivity.this);
+                    handler.sendMessage(message);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
 
     }
 
-    public ArrayList getAroundWifiDeviceInfo(Context context) {
+    public ArrayList<String> getAroundWifiDeviceInfo(Context context) {
         ArrayList<String> sInfo = new ArrayList<>();
         WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(WIFI_SERVICE);
 
@@ -82,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         String ssid = info.getSSID();
         int rssi = info.getRssi();
         sInfo.add(ssid + ":?" + rssi);
-        Log.d("L", ssid);
+        //Log.d("L", ssid);
 
         wifiManager.startScan();
         List<ScanResult> scanResults = wifiManager.getScanResults();//搜素到的设备列表
@@ -97,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(context, "WiFi没有开启", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(context, "扫描到wifi", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "扫描到wifi", Toast.LENGTH_SHORT).show();
             //周边wifi信息
             for (ScanResult scanResult : scanResults) {
                 sInfo.add("SSID:" + scanResult.SSID + "RSSI:" + scanResult.level);
@@ -110,16 +154,6 @@ public class MainActivity extends AppCompatActivity {
         return sInfo;
     }
 
-    //    public int calculateSignalLevel(int rssi, int numLevels) {
-//        if (rssi <= MIN_RSSI) {
-//            return 0;
-//        } else if (rssi >= MAX_RSSI) {
-//            return numLevels - 1;
-//        } else {
-//            int partitionSize = (MAX_RSSI - MIN_RSSI) / (numLevels - 1);
-//            return (rssi - MIN_RSSI) / partitionSize;
-//        }
-//    }
     private SensorEventListener sensorEventListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
