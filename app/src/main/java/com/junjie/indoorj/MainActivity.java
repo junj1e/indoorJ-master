@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -44,14 +43,12 @@ public class MainActivity extends AppCompatActivity {
 
     private Handler handler;
 
-    private Thread thread;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         init();
-        thread.start();
 
 
     }
@@ -79,42 +76,47 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                info = getAroundWifiDeviceInfo(MainActivity.this);
-                arrayAdapter.notifyDataSetChanged();
+                Thread thread=new MyThread();
+                thread.start();
+                handler = new MyHander();
                 //Log.d("O", info.toString());
             }
         });
 
-        handler= new Handler()
-        {
-            @Override
-            public void handleMessage (Message msg)
-            {
-                info= (ArrayList<String>) msg.obj;
-                arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1,
-                        getAroundWifiDeviceInfo(MainActivity.this));
-                arrayAdapter.notifyDataSetChanged();
-                Log.d("count","fff");
-            }
-        };
 
-        thread=new Thread(){
-            @Override
-            public void run() {
-                super.run();
+
+
+    }
+
+    class MyHander extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            info= (ArrayList<String>) msg.obj;
+            arrayAdapter.clear();
+            arrayAdapter.addAll(info);
+            arrayAdapter.notifyDataSetChanged();
+           // Log.d("count",arrayAdapter.toString());
+        }
+    }
+
+    class MyThread extends Thread{
+        @Override
+        public void run() {
+            while(true) {
                 try {
-                    Thread.sleep(100);
-                    Message message=Message.obtain();
-                    message.what=1;
-                    message.obj=getAroundWifiDeviceInfo(MainActivity.this);
+                    Thread.sleep(10);
+                    Message message = handler.obtainMessage();
+                    message.what = 1;
+                    message.obj = getAroundWifiDeviceInfo(MainActivity.this);
                     handler.sendMessage(message);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
             }
-        };
 
+        }
     }
 
     public ArrayList<String> getAroundWifiDeviceInfo(Context context) {
