@@ -1,4 +1,4 @@
-package com.junjie.indoorj;
+package com.junjie.indoorj.features;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -19,14 +19,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.junjie.indoorj.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    //    private static final int MIN_RSSI = -100;
-//    private static final int MAX_RSSI = -55;
+//  private static final int MIN_RSSI = -100;
+//  private static final int MAX_RSSI = -55;
     private ArrayList<String> info = new ArrayList<>();
-    // private ArrayList<String> temp=new ArrayList<>();
+// private ArrayList<String> temp=new ArrayList<>();
     private SensorManager sensorManager;
     private Sensor geomagnetic;
 
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public  void init() {
+    public void init() {
         listView = (ListView) findViewById(R.id.lv_wifi);
         btn = (Button) findViewById(R.id.bt);
         tvmagnet = (TextView) findViewById(R.id.tv_magnet);
@@ -64,11 +66,8 @@ public class MainActivity extends AppCompatActivity {
         sensorManager = (SensorManager) this.getApplicationContext().getSystemService(SENSOR_SERVICE);
 
 
-
-
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
                 getAroundWifiDeviceInfo(MainActivity.this));
-
 
 
         listView.setAdapter(arrayAdapter);
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Thread thread=new MyThread();
+                Thread thread = new MyThread();
                 thread.start();
                 handler = new MyHander();
                 //Log.d("O", info.toString());
@@ -84,26 +83,24 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
     }
 
-    class MyHander extends Handler{
+    class MyHander extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            info= (ArrayList<String>) msg.obj;
+            info = (ArrayList<String>) msg.obj;
             arrayAdapter.clear();
             arrayAdapter.addAll(info);
             arrayAdapter.notifyDataSetChanged();
-           // Log.d("count",arrayAdapter.toString());
+            // Log.d("count",arrayAdapter.toString());
         }
     }
 
-    class MyThread extends Thread{
+    class MyThread extends Thread {
         @Override
         public void run() {
-            while(true) {
+            while (true) {
                 try {
                     Thread.sleep(10);
                     Message message = handler.obtainMessage();
@@ -162,9 +159,9 @@ public class MainActivity extends AppCompatActivity {
             float magnetX = event.values[0];
             float magnetY = event.values[1];
             float magnetZ = event.values[2];
-            tvmagnetX.setText("X:"+String.valueOf(magnetX));
-            tvmagnetY.setText("Y:"+String.valueOf(magnetY));
-            tvmagnetZ.setText("Z:"+String.valueOf(magnetZ));
+            tvmagnetX.setText("X:" + String.valueOf(magnetX));
+            tvmagnetY.setText("Y:" + String.valueOf(magnetY));
+            tvmagnetZ.setText("Z:" + String.valueOf(magnetZ));
         }
 
         @Override
