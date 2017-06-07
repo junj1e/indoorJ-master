@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     // 数据库名称
-    public static final String DATABASE_NAME = "datadb.db";
+    public static final String DATABASE_NAME = "rssidb.db";
 
     // 本类的单例实例
     private static DatabaseHelper instance;
