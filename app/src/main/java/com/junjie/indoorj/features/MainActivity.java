@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -20,6 +21,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.junjie.indoorj.R;
+import com.junjie.indoorj.database.dao.MagnetDAO;
+import com.junjie.indoorj.database.dao.RssiDAO;
+import com.junjie.indoorj.database.entity.MagnetBean;
+import com.junjie.indoorj.database.entity.RssiBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvmagnetX;
     private TextView tvmagnetY;
     private TextView tvmagnetZ;
+
+    private TextView testText;
 
 
     private ArrayAdapter<String> arrayAdapter;
@@ -63,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
         tvmagnetY = (TextView) findViewById(R.id.tv_magnetY);
         tvmagnetZ = (TextView) findViewById(R.id.tv_magnetZ);
 
+        testText= (TextView) findViewById(R.id.textView2);
+
         sensorManager = (SensorManager) this.getApplicationContext().getSystemService(SENSOR_SERVICE);
 
 
@@ -82,6 +91,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //数据库测试代码
+        RssiBean testRssi=new RssiBean(1,2,3,4,5,6,34.4,45.5);
+        RssiDAO rd=new RssiDAO(MainActivity.this);
+        rd.insert(testRssi);
+        List<RssiBean> list=new ArrayList<RssiBean>();
+        list=rd.selectAll();
+        //testText.setText(list.get(0).toString());
+        Log.i("rssi", String.valueOf(list));
+
+        MagnetBean magnet=new MagnetBean(1.1,2.2,3.3,45.5,65.5);
+        MagnetDAO md=new MagnetDAO(MainActivity.this);
+        md.insert(magnet);
+        List<MagnetBean> listM=new ArrayList<MagnetBean>();
+        listM=md.selectAll();
+        Log.i("magnet", String.valueOf(listM));
 
     }
 

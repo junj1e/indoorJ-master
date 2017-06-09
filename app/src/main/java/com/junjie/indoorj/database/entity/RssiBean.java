@@ -2,7 +2,7 @@ package com.junjie.indoorj.database.entity;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-
+import java.sql.Timestamp;
 /**
  * Created by Nova on 2017/6/6.
  * cnhjj2008@gmail.com
@@ -18,6 +18,7 @@ public class RssiBean {
     public static final String COLUMNNAME_RSSI6 = "rssi6";
     public static final String COLUMNNAME_X = "x";
     public static final String COLUMNNAME_Y = "y";
+    public static final String COLUMNNAME_DATE="insertDate";
 
     @DatabaseField(generatedId = true, columnName = COLUMNNAME_ID, useGetSet = true)
     private int id;
@@ -37,6 +38,8 @@ public class RssiBean {
     private double x;
     @DatabaseField(columnName = COLUMNNAME_Y,useGetSet = true)
     private double y;
+    @DatabaseField(columnName=COLUMNNAME_DATE, useGetSet = true, format = "yyyy-MM-dd HH:mm:ss",columnDefinition =  "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    private Timestamp insertDate;
 
     public RssiBean() {
     }
@@ -122,5 +125,29 @@ public class RssiBean {
 
     public void setY(double y) {
         this.y = y;
+    }
+
+    public Timestamp getInsertDate() {
+        return insertDate;
+    }
+
+    public void setInsertDate(Timestamp insertDate) {
+        this.insertDate = insertDate;
+    }
+
+    @Override
+    public String toString() {
+        return "RssiBean{" +
+                "id=" + id +
+                ", rssi1=" + rssi1 +
+                ", rssi2=" + rssi2 +
+                ", rssi3=" + rssi3 +
+                ", rssi4=" + rssi4 +
+                ", rssi5=" + rssi5 +
+                ", rssi6=" + rssi6 +
+                ", x=" + x +
+                ", y=" + y +
+                ", insertDate=" + insertDate +
+                '}';
     }
 }

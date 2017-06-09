@@ -109,4 +109,15 @@ public class MagnetBean {
         this.y = y;
     }
 
+    @Override
+    public String toString() {
+        return "MagnetBean{" +
+                "id=" + id +
+                ", xmagnet=" + xmagnet +
+                ", ymagnet=" + ymagnet +
+                ", zmagnet=" + zmagnet +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }
