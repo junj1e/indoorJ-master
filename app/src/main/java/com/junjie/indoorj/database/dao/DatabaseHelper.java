@@ -2,6 +2,7 @@ package com.junjie.indoorj.database.dao;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
@@ -32,6 +33,7 @@ import java.util.Map;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     // 数据库名称
     public static final String DATABASE_NAME = "rssidb.db";
+    private static final int DATABASE_VERSION = 1;
 
     // 本类的单例实例
     private static DatabaseHelper instance;
@@ -53,7 +55,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     // 私有的构造方法
     private DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     // 根据传入的DAO的路径获取到这个DAO的单例对象（要么从daos这个Map中获取，要么新创建一个并存入daos）
@@ -73,10 +75,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override// 创建数据库时调用的方法
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
-            TableUtils.createTable(connectionSource, RssiBean.class);
-            TableUtils.createTable(connectionSource, MagnetBean.class);
+            TableUtils.createTableIfNotExists(connectionSource, RssiBean.class);
+            TableUtils.createTableIfNotExists(connectionSource, MagnetBean.class);
         } catch (SQLException e) {
             e.printStackTrace();
+            Log.e("create","error");
         }
 
 
@@ -87,10 +90,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.dropTable(connectionSource, RssiBean.class, true);
             TableUtils.dropTable(connectionSource, MagnetBean.class, true);
+            onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        onCreate(database, connectionSource);
+
     }
 
     @Override//释放资源

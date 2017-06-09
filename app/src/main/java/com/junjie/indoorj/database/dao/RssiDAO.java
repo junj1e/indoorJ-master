@@ -1,6 +1,7 @@
 package com.junjie.indoorj.database.dao;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
 import com.junjie.indoorj.database.entity.RssiBean;
@@ -15,12 +16,12 @@ import java.util.List;
 public class RssiDAO {
     private Context context;
     private Dao<RssiBean, Integer> dao;
-    private DatabaseHelper helper;
+    //private DatabaseHelper helper;
 
     public RssiDAO(Context context) {
         this.context = context;
         try {
-            this.dao=helper.getInstance(context).getDao(RssiBean.class);
+            this.dao=DatabaseHelper.getInstance(context).getDao(RssiBean.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -31,6 +32,7 @@ public class RssiDAO {
             dao.create(data);
         } catch (SQLException e) {
             e.printStackTrace();
+            Log.e("inserts","Rerror");
         }
     }
 

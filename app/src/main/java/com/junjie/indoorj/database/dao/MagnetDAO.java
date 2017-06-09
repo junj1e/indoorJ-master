@@ -1,6 +1,7 @@
 package com.junjie.indoorj.database.dao;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
 import com.junjie.indoorj.database.entity.MagnetBean;
@@ -23,14 +24,15 @@ import java.util.List;
 public class MagnetDAO {
     private Context context;
     private Dao<MagnetBean, Integer> dao;
-    private DatabaseHelper helper;
+   // private DatabaseHelper helper;
 
     public MagnetDAO(Context context) {
         this.context = context;
         try {
-            this.dao=helper.getInstance(context).getDao(MagnetBean.class);
+            this.dao=DatabaseHelper.getInstance(context).getDao(MagnetBean.class);
         } catch (SQLException e) {
             e.printStackTrace();
+            Log.e("construct","error");
         }
     }
     // 向表中添加一条数据
@@ -39,6 +41,7 @@ public class MagnetDAO {
             dao.create(data);
         } catch (SQLException e) {
             e.printStackTrace();
+            Log.e("inserts","Merror");
         }
     }
 
