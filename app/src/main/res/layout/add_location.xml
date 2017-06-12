@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/edit_x_axis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="x axis"/>
+
+    <EditText
+        android:id="@+id/edit_y_axis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="y axis" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bt_save"
+        android:text="@string/save"/>
+</LinearLayout>

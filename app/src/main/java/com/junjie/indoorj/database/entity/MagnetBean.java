@@ -39,21 +39,21 @@ public class MagnetBean {
     @DatabaseField(generatedId = true, columnName = COLUMNNAME_ID, useGetSet = true)
     private int id;
     @DatabaseField(columnName = COLUMNNAME_XMAGNET,useGetSet = true,canBeNull = false)
-    private double xmagnet;
+    private float xmagnet;
     @DatabaseField(columnName = COLUMNNAME_YMAGNET,useGetSet = true,canBeNull = false)
-    private double ymagnet;
+    private float ymagnet;
     @DatabaseField(columnName = COLUMNNAME_ZMAGNET,useGetSet = true,canBeNull = false)
-    private double zmagnet;
+    private float zmagnet;
     @DatabaseField(columnName = COLUMNNAME_X,useGetSet = true)
-    private double x;
+    private float x;
     @DatabaseField(columnName = COLUMNNAME_Y,useGetSet = true)
-    private double y;
+    private float y;
 
     public MagnetBean(){
 
     }
 
-    public MagnetBean(double xmagnet, double ymagnet, double zmagnet, double x, double y) {
+    public MagnetBean(float xmagnet, float ymagnet, float zmagnet, float x, float y) {
         this.xmagnet = xmagnet;
         this.ymagnet = ymagnet;
         this.zmagnet = zmagnet;
@@ -69,43 +69,43 @@ public class MagnetBean {
         this.id = id;
     }
 
-    public double getXmagnet() {
+    public float getXmagnet() {
         return xmagnet;
     }
 
-    public void setXmagnet(double xmagnet) {
+    public void setXmagnet(float xmagnet) {
         this.xmagnet = xmagnet;
     }
 
-    public double getYmagnet() {
+    public float getYmagnet() {
         return ymagnet;
     }
 
-    public void setYmagnet(double ymagnet) {
+    public void setYmagnet(float ymagnet) {
         this.ymagnet = ymagnet;
     }
 
-    public double getZmagnet() {
+    public float getZmagnet() {
         return zmagnet;
     }
 
-    public void setZmagnet(double zmagnet) {
+    public void setZmagnet(float zmagnet) {
         this.zmagnet = zmagnet;
     }
 
-    public double getX() {
+    public float getX() {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public double getY() {
+    public float getY() {
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(float y) {
         this.y = y;
     }
 

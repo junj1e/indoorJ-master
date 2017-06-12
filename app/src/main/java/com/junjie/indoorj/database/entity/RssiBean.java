@@ -34,16 +34,16 @@ public class RssiBean {
     @DatabaseField(columnName = COLUMNNAME_RSSI6,useGetSet = true,canBeNull = false,defaultValue = "0")
     private int rssi6;
     @DatabaseField(columnName = COLUMNNAME_X,useGetSet = true)
-    private double x;
+    private float x;
     @DatabaseField(columnName = COLUMNNAME_Y,useGetSet = true)
-    private double y;
+    private float y;
 //    @DatabaseField(columnName=COLUMNNAME_DATE, useGetSet = true, format = "yyyy-MM-dd HH:mm:ss",columnDefinition =  "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
 //    private Timestamp insertDate;
 
     public RssiBean() {
     }
 
-    public RssiBean( int rssi1, int rssi2, int rssi3, int rssi4, int rssi5, int rssi6, double x, double y) {
+    public RssiBean( int rssi1, int rssi2, int rssi3, int rssi4, int rssi5, int rssi6, float x, float y) {
         this.rssi1 = rssi1;
         this.rssi2 = rssi2;
         this.rssi3 = rssi3;
@@ -110,19 +110,19 @@ public class RssiBean {
         this.rssi6 = rssi6;
     }
 
-    public double getX() {
+    public float getX() {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public double getY() {
+    public float getY() {
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(float y) {
         this.y = y;
     }
 

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">indoorJ</string>
-    <string name="welcome_message">hello</string>
+    <string name="welcome_message">Refresh</string>
+    <string name="save">save</string>
 </resources>

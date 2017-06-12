@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,20 +31,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-//  private static final int MIN_RSSI = -100;
+    //  private static final int MIN_RSSI = -100;
 //  private static final int MAX_RSSI = -55;
-    private ArrayList<String> info = new ArrayList<>();
-// private ArrayList<String> temp=new ArrayList<>();
+    private List<String> info = new ArrayList<>();
+    // private List<String> temp=new ArrayList<>();
     private SensorManager sensorManager;
-    private Sensor geomagnetic;
+    private Sensor geomagneticSensor;
 
     private Button btn;
     private ListView listView;
 
-    private TextView tvmagnet;
-    private TextView tvmagnetX;
-    private TextView tvmagnetY;
-    private TextView tvmagnetZ;
+    private TextView tvMagnet;
+    private TextView tvMagnetX;
+    private TextView tvMagnetY;
+    private TextView tvMagnetZ;
 
     private TextView testText;
 
@@ -51,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> arrayAdapter;
 
     private Handler handler;
+
+    //save the data
+    private EditText etXAxis;
+    private EditText etYAxis;
+    private Button btnSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +71,16 @@ public class MainActivity extends AppCompatActivity {
     public void init() {
         listView = (ListView) findViewById(R.id.lv_wifi);
         btn = (Button) findViewById(R.id.bt);
-        tvmagnet = (TextView) findViewById(R.id.tv_magnet);
-        tvmagnetX = (TextView) findViewById(R.id.tv_magnetX);
-        tvmagnetY = (TextView) findViewById(R.id.tv_magnetY);
-        tvmagnetZ = (TextView) findViewById(R.id.tv_magnetZ);
+        tvMagnet = (TextView) findViewById(R.id.tv_magnet);
+        tvMagnetX = (TextView) findViewById(R.id.tv_magnetX);
+        tvMagnetY = (TextView) findViewById(R.id.tv_magnetY);
+        tvMagnetZ = (TextView) findViewById(R.id.tv_magnetZ);
 
-        testText= (TextView) findViewById(R.id.textView2);
+        testText = (TextView) findViewById(R.id.textView2);
+
+        etXAxis = (EditText) findViewById(R.id.edit_x_axis);
+        etYAxis = (EditText) findViewById(R.id.edit_y_axis);
+        btnSave = (Button) findViewById(R.id.bt_save);
 
         sensorManager = (SensorManager) this.getApplicationContext().getSystemService(SENSOR_SERVICE);
 
@@ -91,20 +101,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         //数据库测试代码
-        RssiBean testRssi=new RssiBean(1,2,3,4,5,6,34.4,45.5);
-        RssiDAO rd=new RssiDAO(MainActivity.this);
+        RssiBean testRssi = new RssiBean(1, 2, 3, 4, 5, 6, 34.4f, 45.5f);
+        RssiDAO rd = new RssiDAO(MainActivity.this);
         rd.insert(testRssi);
-        List<RssiBean> list=new ArrayList<RssiBean>();
-        list=rd.selectAll();
+        List<RssiBean> list = new ArrayList<RssiBean>();
+        list = rd.selectAll();
         //testText.setText(list.get(0).toString());
         Log.i("rssi", String.valueOf(list));
 
-        MagnetBean magnet=new MagnetBean(1.1,2.2,3.3,45.5,65.5);
-        MagnetDAO md=new MagnetDAO(MainActivity.this);
+        MagnetBean magnet = new MagnetBean(1.1f, 2.2f, 3.3f, 45.5f, 65.5f);
+        MagnetDAO md = new MagnetDAO(MainActivity.this);
         md.insert(magnet);
-        List<MagnetBean> listM=new ArrayList<MagnetBean>();
-        listM=md.selectAll();
+        List<MagnetBean> listM = new ArrayList<MagnetBean>();
+        listM = md.selectAll();
         Log.i("magnet", String.valueOf(listM));
 
     }
@@ -140,15 +157,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public ArrayList<String> getAroundWifiDeviceInfo(Context context) {
-        ArrayList<String> sInfo = new ArrayList<>();
+    public List<String> getAroundWifiDeviceInfo(Context context) {
+        List<String> sInfo = new ArrayList<>();
         WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(WIFI_SERVICE);
 
         //本机wifi信息
         WifiInfo info = wifiManager.getConnectionInfo();
         String ssid = info.getSSID();
         int rssi = info.getRssi();
-        sInfo.add(ssid + ":?" + rssi);
+        String MACAddress = info.getBSSID();
+        sInfo.add("当前连接的网络:" + ssid + ":?" + rssi + ":?" + MACAddress);
         //Log.d("L", ssid);
 
         wifiManager.startScan();
@@ -167,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
             //Toast.makeText(context, "扫描到wifi", Toast.LENGTH_SHORT).show();
             //周边wifi信息
             for (ScanResult scanResult : scanResults) {
-                sInfo.add("SSID:" + scanResult.SSID + "RSSI:" + scanResult.level);
+                sInfo.add("SSID:" + scanResult.SSID + "RSSI:" + scanResult.level + "MACAddress:" + scanResult.BSSID);
                 /*
                 wifi信号等级*/
                 //"Cal:" + wifiManager.calculateSignalLevel(scanResult.level, 4);
@@ -183,9 +201,9 @@ public class MainActivity extends AppCompatActivity {
             float magnetX = event.values[0];
             float magnetY = event.values[1];
             float magnetZ = event.values[2];
-            tvmagnetX.setText("X:" + String.valueOf(magnetX));
-            tvmagnetY.setText("Y:" + String.valueOf(magnetY));
-            tvmagnetZ.setText("Z:" + String.valueOf(magnetZ));
+            tvMagnetX.setText("X:" + String.valueOf(magnetX));
+            tvMagnetY.setText("Y:" + String.valueOf(magnetY));
+            tvMagnetZ.setText("Z:" + String.valueOf(magnetZ));
         }
 
         @Override
@@ -198,8 +216,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        geomagnetic = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        sensorManager.registerListener(sensorEventListener, geomagnetic, SensorManager.SENSOR_DELAY_NORMAL);
+        geomagneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        sensorManager.registerListener(sensorEventListener, geomagneticSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
