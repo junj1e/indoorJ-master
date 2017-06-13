@@ -73,7 +73,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     @Override// 创建数据库时调用的方法
-    public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
+    public synchronized void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
             TableUtils.createTableIfNotExists(connectionSource, RssiBean.class);
             TableUtils.createTableIfNotExists(connectionSource, MagnetBean.class);
@@ -105,4 +105,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             dao = null;
         }
     }
+
+
+
 }

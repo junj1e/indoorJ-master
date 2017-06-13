@@ -14,7 +14,7 @@
         android:text="@string/welcome_message" />
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="361dp"
+        android:layout_height="286dp"
         android:id="@+id/lv_wifi" />
 
     <LinearLayout

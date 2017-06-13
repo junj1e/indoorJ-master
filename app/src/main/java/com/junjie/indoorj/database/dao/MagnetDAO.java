@@ -7,7 +7,6 @@ import com.j256.ormlite.dao.Dao;
 import com.junjie.indoorj.database.entity.MagnetBean;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,17 +24,18 @@ import java.util.List;
 public class MagnetDAO {
     private Context context;
     private Dao<MagnetBean, Integer> dao;
-   // private DatabaseHelper helper;
+    private DatabaseHelper helper;
 
     public MagnetDAO(Context context) {
         this.context = context;
         try {
-            this.dao=DatabaseHelper.getInstance(context).getDao(MagnetBean.class);
+            this.dao=helper.getInstance(context).getDao(MagnetBean.class);
         } catch (SQLException e) {
             e.printStackTrace();
             Log.e("construct","error");
         }
     }
+
     // 向表中添加一条数据
     public void insert(MagnetBean data) {
         try {
@@ -46,7 +46,7 @@ public class MagnetDAO {
         }
     }
     //向表中添加多条数据
-    public void insert(ArrayList<MagnetBean> datas ){
+    public void insert(List<MagnetBean> datas ){
         try {
             dao.create(datas);
         } catch (SQLException e) {

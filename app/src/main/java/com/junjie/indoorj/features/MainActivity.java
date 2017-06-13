@@ -12,7 +12,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,9 +24,6 @@ import android.widget.Toast;
 
 import com.junjie.indoorj.R;
 import com.junjie.indoorj.database.dao.MagnetDAO;
-import com.junjie.indoorj.database.dao.RssiDAO;
-import com.junjie.indoorj.database.entity.MagnetBean;
-import com.junjie.indoorj.database.entity.RssiBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,10 +103,16 @@ public class MainActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SensorsDataManager manager = SensorsDataManager.getInstance();
+                manager.init(MainActivity.this);
+                MagnetDAO md = new MagnetDAO(MainActivity.this);
+                md.insert(manager.getAddMagnetList());
 
             }
         });
         //数据库测试代码
+/*
+
         RssiBean testRssi = new RssiBean(1, 2, 3, 4, 5, 6, 34.4f, 45.5f);
         RssiDAO rd = new RssiDAO(MainActivity.this);
         rd.insert(testRssi);
@@ -117,12 +121,17 @@ public class MainActivity extends AppCompatActivity {
         //testText.setText(list.get(0).toString());
         Log.i("rssi", String.valueOf(list));
 
-        MagnetBean magnet = new MagnetBean(1.1f, 2.2f, 3.3f, 45.5f, 65.5f);
+        List<MagnetBean> ll=new ArrayList<MagnetBean>();
+        for(int i=0;i<10;i++) {
+            MagnetBean magnet = new MagnetBean(1.1f, 2.2f, 3.3f, 45.5f, 65.5f);
+            ll.add(magnet);
+        }
         MagnetDAO md = new MagnetDAO(MainActivity.this);
-        md.insert(magnet);
+        md.insert(ll);
         List<MagnetBean> listM = new ArrayList<MagnetBean>();
         listM = md.selectAll();
         Log.i("magnet", String.valueOf(listM));
+*/
 
     }
 
@@ -216,13 +225,34 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        geomagneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        sensorManager.registerListener(sensorEventListener, geomagneticSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        // geomagneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        // sensorManager.registerListener(sensorEventListener, geomagneticSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        sensorManager.unregisterListener(sensorEventListener);
+        //sensorManager.unregisterListener(sensorEventListener);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_clear_db:
+
+                break;
+
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

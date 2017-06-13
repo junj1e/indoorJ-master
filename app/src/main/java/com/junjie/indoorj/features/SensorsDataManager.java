@@ -7,7 +7,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.junjie.indoorj.R;
@@ -23,6 +22,8 @@ import java.util.List;
 
 public class SensorsDataManager {
 
+    //计数控制10次记录一次
+    private static int count=0;
     private EditText etXAxis;
     private EditText etYAxis;
 
@@ -65,18 +66,26 @@ public class SensorsDataManager {
 //            tvMagnetY.setText("Y:" + String.valueOf(magnetY));
 //            tvMagnetZ.setText("Z:" + String.valueOf(magnetZ));
             MagnetBean newMagnet = new MagnetBean();
-            for (int i = 0; i < 100; i++) {
-                float magnetX = event.values[0];
-                float magnetY = event.values[1];
-                float magnetZ = event.values[2];
-                newMagnet.setXmagnet(magnetX);
-                newMagnet.setYmagnet(magnetY);
-                newMagnet.setZmagnet(magnetZ);
-                newMagnet.setX(Float.valueOf(etXAxis.getText().toString()));
-                newMagnet.setY(Float.valueOf(etYAxis.getText().toString()));
+
+            float magnetX = event.values[0];
+            float magnetY = event.values[1];
+            float magnetZ = event.values[2];
+            newMagnet.setMagnetx(magnetX);
+            newMagnet.setMagnety(magnetY);
+            newMagnet.setMagnetz(magnetZ);
+            String strx=etXAxis.getText().toString();
+            System.out.println(strx);
+            //float x= Float.valueOf(strx);
+            newMagnet.setX(0f);
+            String stry=etYAxis.getText().toString();
+            System.out.println(stry);
+            //float y=Float.valueOf(stry);
+            newMagnet.setY(0f);
+            if(count<10)
                 addMagnetList.add(newMagnet);
-                newMagnet = null;
-            }
+            count++;
+            newMagnet = null;
+
 
         }
 

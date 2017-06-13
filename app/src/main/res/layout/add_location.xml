@@ -3,17 +3,28 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <EditText
-        android:id="@+id/edit_x_axis"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="x axis"/>
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/edit_x_axis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="numberDecimal"
+            android:hint="x axis"/>
 
-    <EditText
-        android:id="@+id/edit_y_axis"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="y axis" />
+        <EditText
+            android:id="@+id/edit_y_axis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="numberDecimal"
+            android:hint="y axis" />
+
+    </LinearLayout>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -3,6 +3,8 @@ package com.junjie.indoorj.database.entity;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import static com.junjie.indoorj.database.entity.RssiBean.COLUMNNAME_ID;
+
 
 /**
  * Created by Nova on 2017/6/6.
@@ -29,34 +31,47 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "magnet") // 指定数据表的名称
 public class MagnetBean {
     // 定义字段在数据库中的字段名
-    public static final String COLUMNNAME_ID = "id";
-    public static final String COLUMNNAME_XMAGNET = "xmagnet";
-    public static final String COLUMNNAME_YMAGNET = "ymagnet";
-    public static final String COLUMNNAME_ZMAGNET = "zmagnet";
-    public static final String COLUMNNAME_X = "x";
-    public static final String COLUMNNAME_Y = "y";
+//    public static final String COLUMNNAME_ID = "id";
+//    public static final String COLUMNNAME_MAGNETx = "magnetx";
+//    public static final String COLUMNNAME_MAGNETy = "magnety";
+//    public static final String COLUMNNAME_MAGNETz = "magnetz";
+//    public static final String COLUMNNAME_X = "x";
+//    public static final String COLUMNNAME_Y = "y";
+
+//    @DatabaseField(generatedId = true, columnName = COLUMNNAME_ID, useGetSet = true)
+//    private int id;
+//    @DatabaseField(columnName = COLUMNNAME_MAGNETx,useGetSet = true,canBeNull = false)
+//    private float magnetx;
+//    @DatabaseField(columnName = COLUMNNAME_MAGNETy,useGetSet = true,canBeNull = false)
+//    private float magnety;
+//    @DatabaseField(columnName = COLUMNNAME_MAGNETz,useGetSet = true,canBeNull = false)
+//    private float magnetz;
+//    @DatabaseField(columnName = COLUMNNAME_X,useGetSet = true)
+//    private float x;
+//    @DatabaseField(columnName = COLUMNNAME_Y,useGetSet = true)
+//    private float y;
 
     @DatabaseField(generatedId = true, columnName = COLUMNNAME_ID, useGetSet = true)
     private int id;
-    @DatabaseField(columnName = COLUMNNAME_XMAGNET,useGetSet = true,canBeNull = false)
-    private float xmagnet;
-    @DatabaseField(columnName = COLUMNNAME_YMAGNET,useGetSet = true,canBeNull = false)
-    private float ymagnet;
-    @DatabaseField(columnName = COLUMNNAME_ZMAGNET,useGetSet = true,canBeNull = false)
-    private float zmagnet;
-    @DatabaseField(columnName = COLUMNNAME_X,useGetSet = true)
+    @DatabaseField(useGetSet = true,canBeNull = false)
+    private float magnetx;
+    @DatabaseField(useGetSet = true,canBeNull = false)
+    private float magnety;
+    @DatabaseField(useGetSet = true,canBeNull = false)
+    private float magnetz;
+    @DatabaseField(useGetSet = true)
     private float x;
-    @DatabaseField(columnName = COLUMNNAME_Y,useGetSet = true)
+    @DatabaseField(useGetSet = true)
     private float y;
 
     public MagnetBean(){
 
     }
 
-    public MagnetBean(float xmagnet, float ymagnet, float zmagnet, float x, float y) {
-        this.xmagnet = xmagnet;
-        this.ymagnet = ymagnet;
-        this.zmagnet = zmagnet;
+    public MagnetBean(float magnetx, float magnety, float magnetz, float x, float y) {
+        this.magnetx = magnetx;
+        this.magnety = magnety;
+        this.magnetz = magnetz;
         this.x = x;
         this.y = y;
     }
@@ -69,28 +84,28 @@ public class MagnetBean {
         this.id = id;
     }
 
-    public float getXmagnet() {
-        return xmagnet;
+    public float getMagnetx() {
+        return magnetx;
     }
 
-    public void setXmagnet(float xmagnet) {
-        this.xmagnet = xmagnet;
+    public void setMagnetx(float magnetx) {
+        this.magnetx = magnetx;
     }
 
-    public float getYmagnet() {
-        return ymagnet;
+    public float getMagnety() {
+        return magnety;
     }
 
-    public void setYmagnet(float ymagnet) {
-        this.ymagnet = ymagnet;
+    public void setMagnety(float magnety) {
+        this.magnety = magnety;
     }
 
-    public float getZmagnet() {
-        return zmagnet;
+    public float getMagnetz() {
+        return magnetz;
     }
 
-    public void setZmagnet(float zmagnet) {
-        this.zmagnet = zmagnet;
+    public void setMagnetz(float magnetz) {
+        this.magnetz = magnetz;
     }
 
     public float getX() {
@@ -113,11 +128,12 @@ public class MagnetBean {
     public String toString() {
         return "MagnetBean{" +
                 "id=" + id +
-                ", xmagnet=" + xmagnet +
-                ", ymagnet=" + ymagnet +
-                ", zmagnet=" + zmagnet +
+                ", magnetx=" + magnetx +
+                ", magnety=" + magnety +
+                ", magnetz=" + magnetz +
                 ", x=" + x +
                 ", y=" + y +
                 '}';
     }
+
 }
