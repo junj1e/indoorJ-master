@@ -7,7 +7,6 @@ import com.j256.ormlite.dao.Dao;
 import com.junjie.indoorj.database.entity.RssiBean;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,7 +37,7 @@ public class RssiDAO {
     }
 
     //向表中添加多条数据
-    public void insert(ArrayList<RssiBean> datas ){
+    public void insert(List<RssiBean> datas ){
         try {
             dao.create(datas);
         } catch (SQLException e) {

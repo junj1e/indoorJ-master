@@ -58,7 +58,7 @@ public class SensorsDataManager {
     }
 
 
-    private class MSensorListener implements SensorEventListener {
+    class MSensorListener implements SensorEventListener {
         @Override
         public void onSensorChanged(SensorEvent event) {
 
