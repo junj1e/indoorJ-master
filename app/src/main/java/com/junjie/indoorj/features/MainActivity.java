@@ -23,7 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.junjie.indoorj.R;
-import com.junjie.indoorj.database.dao.MagnetDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,8 +104,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 SensorsDataManager manager = SensorsDataManager.getInstance();
                 manager.init(MainActivity.this);
-                MagnetDAO md = new MagnetDAO(MainActivity.this);
-                md.insert(manager.getAddMagnetList());
+
+                WifiDataManager wifiManager = WifiDataManager.getInstance();
+                wifiManager.init(MainActivity.this);
+//                Log.i("AddRssiList", wifiManager.getAddRssiList().toString());
+//                RssiDAO rd = new RssiDAO(MainActivity.this);
+//                rd.insert(wifiManager.getAddRssiList());
+
 
             }
         });

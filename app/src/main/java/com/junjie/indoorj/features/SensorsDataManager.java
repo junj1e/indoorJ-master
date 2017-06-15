@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.junjie.indoorj.R;
+import com.junjie.indoorj.database.dao.MagnetDAO;
 import com.junjie.indoorj.database.entity.MagnetBean;
 
 import java.util.ArrayList;
@@ -23,14 +24,16 @@ import java.util.List;
 public class SensorsDataManager {
 
     //计数控制10次记录一次
-    private static int count=0;
+    private final static int COLLECTCOUNT = 10;
+    private int count = 0;
     private EditText etXAxis;
     private EditText etYAxis;
+    private Context context;
 
     private SensorManager sensorManager;
     private Sensor geomagneticSensor;
     private SensorEventListener geomagneticSensorListener;
-    private List<MagnetBean> addMagnetList = new ArrayList<MagnetBean>();
+    private List<MagnetBean> addMagnetList = null;
 
     private volatile static SensorsDataManager sensorsDataManager = null;
 
@@ -46,11 +49,12 @@ public class SensorsDataManager {
     }
 
     public void init(Context context) {
+        this.context=context;
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.activity_main, null);
         etXAxis = (EditText) view.findViewById(R.id.edit_x_axis);
         etYAxis = (EditText) view.findViewById(R.id.edit_y_axis);
-
+        addMagnetList= new ArrayList<MagnetBean>();
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         geomagneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         geomagneticSensorListener = new MSensorListener();
@@ -73,19 +77,20 @@ public class SensorsDataManager {
             newMagnet.setMagnetx(magnetX);
             newMagnet.setMagnety(magnetY);
             newMagnet.setMagnetz(magnetZ);
-            String strx=etXAxis.getText().toString();
+            String strx = etXAxis.getText().toString();
             System.out.println(strx);
             //float x= Float.valueOf(strx);
             newMagnet.setX(0f);
-            String stry=etYAxis.getText().toString();
+            String stry = etYAxis.getText().toString();
             System.out.println(stry);
             //float y=Float.valueOf(stry);
             newMagnet.setY(0f);
-            if(count<10)
+            if (count < COLLECTCOUNT) {
                 addMagnetList.add(newMagnet);
-            count++;
+                count++;
+            } else
+                unregister();
             newMagnet = null;
-
 
         }
 
@@ -95,9 +100,6 @@ public class SensorsDataManager {
         }
     }
 
-    public void unregister() {
-        sensorManager.unregisterListener(geomagneticSensorListener);
-    }
 
     public List<MagnetBean> getAddMagnetList() {
         return addMagnetList;
@@ -105,5 +107,13 @@ public class SensorsDataManager {
 
     public void setAddMagnetList(List<MagnetBean> addMagnetList) {
         this.addMagnetList = addMagnetList;
+    }
+
+    public void unregister() {
+        sensorManager.unregisterListener(geomagneticSensorListener);
+        count = 0;
+        MagnetDAO md = new MagnetDAO(context);
+        md.insert(addMagnetList);
+
     }
 }

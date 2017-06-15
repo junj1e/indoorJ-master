@@ -2,6 +2,7 @@ package com.junjie.indoorj.database.dao;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.junjie.indoorj.database.entity.RssiBean;
@@ -40,6 +41,7 @@ public class RssiDAO {
     public void insert(List<RssiBean> datas ){
         try {
             dao.create(datas);
+            Toast.makeText(context, "收集完成", Toast.LENGTH_SHORT).show();
         } catch (SQLException e) {
             e.printStackTrace();
             Log.e("insertsMul","Rerror");
