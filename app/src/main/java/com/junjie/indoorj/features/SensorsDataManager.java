@@ -8,6 +8,7 @@ import android.hardware.SensorManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.junjie.indoorj.R;
 import com.junjie.indoorj.database.dao.MagnetDAO;
@@ -50,10 +51,15 @@ public class SensorsDataManager {
 
     public void init(Context context) {
         this.context=context;
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.activity_main, null);
-        etXAxis = (EditText) view.findViewById(R.id.edit_x_axis);
-        etYAxis = (EditText) view.findViewById(R.id.edit_y_axis);
+
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View view = layoutInflater.inflate(R.layout.activity_main, null);
+        LinearLayout ll= (LinearLayout) view.findViewById(R.id.linearLayout_locationadd);
+        etXAxis = (EditText) ll.findViewById(R.id.edit_x_axis);
+        etYAxis = (EditText) ll.findViewById(R.id.edit_y_axis);
+
+
+
         addMagnetList= new ArrayList<MagnetBean>();
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         geomagneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -79,12 +85,12 @@ public class SensorsDataManager {
             newMagnet.setMagnetz(magnetZ);
             String strx = etXAxis.getText().toString();
             System.out.println(strx);
-            //float x= Float.valueOf(strx);
-            newMagnet.setX(0f);
+            float x= Float.valueOf(strx);
+            newMagnet.setX(x);
             String stry = etYAxis.getText().toString();
             System.out.println(stry);
-            //float y=Float.valueOf(stry);
-            newMagnet.setY(0f);
+            float y=Float.valueOf(stry);
+            newMagnet.setY(y);
             if (count < COLLECTCOUNT) {
                 addMagnetList.add(newMagnet);
                 count++;

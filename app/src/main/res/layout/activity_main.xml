@@ -55,6 +55,7 @@
         android:layout_height="wrap_content"
         android:text="TextView" />
 
-    <include layout="@layout/add_location" />
+    <include layout="@layout/add_location"
+        android:id="@+id/linearLayout_locationadd"/>
 
 </LinearLayout>
