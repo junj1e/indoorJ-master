@@ -103,10 +103,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SensorsDataManager manager = SensorsDataManager.getInstance();
-                manager.init(MainActivity.this);
+                manager.init(MainActivity.this,etXAxis,etYAxis);
 
                 WifiDataManager wifiManager = WifiDataManager.getInstance();
-                wifiManager.init(MainActivity.this);
+                wifiManager.init(MainActivity.this,etXAxis,etYAxis);
 //                Log.i("AddRssiList", wifiManager.getAddRssiList().toString());
 //                RssiDAO rd = new RssiDAO(MainActivity.this);
 //                rd.insert(wifiManager.getAddRssiList());

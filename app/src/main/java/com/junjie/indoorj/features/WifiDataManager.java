@@ -31,6 +31,7 @@ public class WifiDataManager {
     private int numcount = 0;//计数addRssiList10次
     private EditText etXAxis;
     private EditText etYAxis;
+    private Context context;
 
     private WifiManager wifiManager;
     private List<RssiBean> addRssiList = null;//返回的addRssiList对象
@@ -60,7 +61,11 @@ public class WifiDataManager {
         return wifiDataManager;
     }
 
-    public void init(Context context) {
+    public void init(Context context,EditText x, EditText y) {
+        this.context=context;
+        this.etXAxis=x;
+        this.etYAxis=y;
+
         if (wifiManager == null) {
             wifiManager = (WifiManager) context
                     .getSystemService(Context.WIFI_SERVICE);
@@ -170,8 +175,14 @@ public class WifiDataManager {
             newRssi.setRssi6(hashMapMAC.get(listMAC.get(5)));
             else
                 newRssi.setRssi6(0);
-            newRssi.setX(1.1f);
-            newRssi.setY(2.2f);
+            String strx2 = etXAxis.getText().toString();
+            String stry2 = etYAxis.getText().toString();
+            float x= Float.valueOf(strx2);
+            float y= Float.valueOf(stry2);
+            newRssi.setX(x);
+            newRssi.setY(y);
+//            newRssi.setX(1.1f);
+//            newRssi.setY(2.2f);
             if (numcount < COLLECTCOUNT) {
                 addRssiList.add(newRssi);
                 numcount++;

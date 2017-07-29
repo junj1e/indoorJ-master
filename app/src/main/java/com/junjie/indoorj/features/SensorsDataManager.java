@@ -5,12 +5,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.util.Log;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
-import com.junjie.indoorj.R;
 import com.junjie.indoorj.database.dao.MagnetDAO;
 import com.junjie.indoorj.database.entity.MagnetBean;
 
@@ -31,6 +28,7 @@ public class SensorsDataManager {
     private EditText etYAxis;
     private Context context;
 
+
     private SensorManager sensorManager;
     private Sensor geomagneticSensor;
     private SensorEventListener geomagneticSensorListener;
@@ -49,14 +47,16 @@ public class SensorsDataManager {
         return sensorsDataManager;
     }
 
-    public void init(Context context) {
+    public void init(Context context,EditText x,EditText y) {
         this.context=context;
+        this.etXAxis=x;
+        this.etYAxis=y;
 
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.activity_main, null);
-        LinearLayout ll= (LinearLayout) view.findViewById(R.id.linearLayout_locationadd);
-        etXAxis = (EditText) ll.findViewById(R.id.edit_x_axis);
-        etYAxis = (EditText) ll.findViewById(R.id.edit_y_axis);
+//        LayoutInflater layoutInflater = LayoutInflater.from(context);
+//        View view = layoutInflater.inflate(R.layout.activity_main, null);
+//        LinearLayout ll= (LinearLayout) view.findViewById(R.id.linearLayout_locationadd);
+//        etXAxis = (EditText) ll.findViewById(R.id.edit_x_axis);
+//        etYAxis = (EditText) ll.findViewById(R.id.edit_y_axis);
 
 
 
@@ -83,13 +83,15 @@ public class SensorsDataManager {
             newMagnet.setMagnetx(magnetX);
             newMagnet.setMagnety(magnetY);
             newMagnet.setMagnetz(magnetZ);
-            String strx = etXAxis.getText().toString();
-            System.out.println(strx);
-            float x= Float.valueOf(strx);
+            String strx2 = etXAxis.getText().toString();
+            String strx ="2.2";
+            Log.d("strx2",strx2);
+            float x= Float.valueOf(strx2);
             newMagnet.setX(x);
-            String stry = etYAxis.getText().toString();
-            System.out.println(stry);
-            float y=Float.valueOf(stry);
+            String stry2 = etYAxis.getText().toString();
+            String stry ="2.2";
+            Log.d("stry2",stry2);
+            float y=Float.valueOf(stry2);
             newMagnet.setY(y);
             if (count < COLLECTCOUNT) {
                 addMagnetList.add(newMagnet);
